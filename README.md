@@ -171,6 +171,32 @@ const authorizeUser = async (req, res, next) => {
 };
 ```
 
+#### Authorization Middleware Implementation
+
+```javascript
+// Route-level authorization protection
+subscriptionRouter.post("/", authorize, createSubscription);
+subscriptionRouter.get("/user/:id", authorize, getUserSubscriptions);
+subscriptionRouter.get("/:id", authorize, getSubscription);
+subscriptionRouter.put("/:id", authorize, updateSubscription);
+subscriptionRouter.delete("/:id", authorize, deleteSubscription);
+```
+
+**Key Authorization Features:**
+
+- **Token Extraction**: Automatically extracts JWT from `Authorization: Bearer <token>` header
+- **User Validation**: Verifies token signature and checks user existence in database
+- **Request Context**: Attaches authenticated user to `req.user` for downstream use
+- **Error Handling**: Provides consistent 401 responses for authentication failures
+- **Middleware Chain**: Seamlessly integrates with Express.js middleware pipeline
+
+**Security Benefits:**
+
+- Prevents unauthorized access to protected endpoints
+- Ensures only authenticated users can manage subscriptions
+- Provides user context for data isolation and ownership validation
+- Centralizes authentication logic for maintainability
+
 ### 5. **Workflow-Based Email System**
 
 #### Upstash Workflow Integration
